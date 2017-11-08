@@ -1,6 +1,6 @@
-# WDCL
+# WDCL - Condition Parser
 
-## WDCL is a simple language which allow to express conditions in a syntax similar to SQL.
+**WDCL** is a simple language which allow to express conditions in a syntax similar to SQL.
 
 This project is a CSharp DLL that parse WDCL using ANTLR4 and let you *evaluate* your condition or *translate* it in CSharp code.
 
