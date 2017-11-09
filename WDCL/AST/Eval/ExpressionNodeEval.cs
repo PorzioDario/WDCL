@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace WDCL.AST
 {
-    public class Expression : INode
+    public class ExpressionNodeEval : INodeEval
     {
-        public DataType Type { get; set; }
+        public DataType Type;
 
-        public object Value { get; set; }
+        public object Value;
         
         #region Operator Overloading
-        public static Expression operator +(Expression l, Expression r)
+        public static ExpressionNodeEval operator +(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             //controllo di coerenza tipi:
             //numerici con numerici
@@ -23,81 +23,81 @@ namespace WDCL.AST
             if((l.Type == DataType.String) || (r.Type == DataType.String))
             {
                 //converto entrambi gli operatori in stringa e concateno
-                return new Expression() { Type=DataType.String, Value = (string)l.Value + (string)r.Value };
+                return new ExpressionNodeEval() { Type=DataType.String, Value = (string)l.Value + (string)r.Value };
             }
 
             //somma algebrica
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
             {
                 //sommo algebricamente i valori convertiti in double
-                return new Expression() { Type = DataType.Double, Value = (double)l.Value + (double)r.Value };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = (double)l.Value + (double)r.Value };
             }
 
             throw new ArgumentException("Mismatched data types in Addition");
         }
 
-        public static Expression operator -(Expression l, Expression r)
+        public static ExpressionNodeEval operator -(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
             {
                 //sottraggo algebricamente i valori convertiti in double
-                return new Expression() { Type = DataType.Double, Value = (double)l.Value - (double)r.Value };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = (double)l.Value - (double)r.Value };
             }
 
             throw new ArgumentException("Mismatched data types in Substraction");
         }
 
-        public static Expression operator -(Expression l)
+        public static ExpressionNodeEval operator -(ExpressionNodeEval l)
         {
             if (l.Type == DataType.Double)
-                return new Expression() { Type = DataType.Double, Value = -(double)l.Value};
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = -(double)l.Value};
 
             throw new ArgumentException("Mismatched data types in Unary Minus");
         }
 
-        public static Expression operator *(Expression l, Expression r)
+        public static ExpressionNodeEval operator *(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
-                return new Expression() { Type = DataType.Double, Value = (double)l.Value * (double)r.Value };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = (double)l.Value * (double)r.Value };
 
             throw new ArgumentException("Mismatched data types in Multiplication");
         }
 
-        public static Expression operator /(Expression l, Expression r)
+        public static ExpressionNodeEval operator /(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
             {
                 if (((double)r.Value) == 0)
                     throw new DivideByZeroException("Division by zero");
 
-                return new Expression() { Type = DataType.Double, Value = (double)l.Value / (double)r.Value };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = (double)l.Value / (double)r.Value };
             }
 
             throw new ArgumentException("Mismatched data types in Division");
         }
 
-        public static Expression operator %(Expression l, Expression r)
+        public static ExpressionNodeEval operator %(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
             {
                 if (((double)r.Value) == 0)
                     throw new DivideByZeroException("Division by zero");
 
-                return new Expression() { Type = DataType.Double, Value = (double)l.Value % (double)r.Value };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = (double)l.Value % (double)r.Value };
             }
 
             throw new ArgumentException("Mismatched data types in Module Operation");
         }
 
-        public static Expression operator ^(Expression l, Expression r)
+        public static ExpressionNodeEval operator ^(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if ((l.Type == DataType.Double) && (r.Type == DataType.Double))
-                return new Expression() { Type = DataType.Double, Value = Math.Pow((double)l.Value,(double)r.Value) };
+                return new ExpressionNodeEval() { Type = DataType.Double, Value = Math.Pow((double)l.Value,(double)r.Value) };
 
             throw new ArgumentException("Mismatched data types in Power Operation");
         }
 
-        public static bool operator ==(Expression l, Expression r)
+        public static bool operator ==(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if (l.Type != r.Type) return false;
 
@@ -110,12 +110,12 @@ namespace WDCL.AST
             }
         }
 
-        public static bool operator !=(Expression l, Expression r)
+        public static bool operator !=(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             return !(l == r);
         }
 
-        public static bool operator <(Expression l, Expression r)
+        public static bool operator <(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if (l.Type != r.Type) return false;
 
@@ -128,7 +128,7 @@ namespace WDCL.AST
             }
         }
 
-        public static bool operator >(Expression l, Expression r)
+        public static bool operator >(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             if (l.Type != r.Type) return false;
 
@@ -141,12 +141,12 @@ namespace WDCL.AST
             }
         }
 
-        public static bool operator <=(Expression l, Expression r)
+        public static bool operator <=(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             return !(l > r);
         }
 
-        public static bool operator >=(Expression l, Expression r)
+        public static bool operator >=(ExpressionNodeEval l, ExpressionNodeEval r)
         {
             return !(l < r);
         }

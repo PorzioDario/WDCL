@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace WDCL.AST
 {
-    public class Condition : INode
+    public class NodeTranslate : INodeTranslate
     {
-        public bool Value { get; set; }
+
+    }
+
+    public interface INodeTranslate
+    {
+
     }
 }

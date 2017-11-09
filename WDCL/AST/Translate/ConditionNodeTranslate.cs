@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WDCL.AST
 {
-    public class Node : INode
+    public class ConditionNodeTranslate : INodeTranslate
     {
-    }
+        //public bool Value;
 
-    public interface INode
-    {
+        public string Code;
+
     }
 }

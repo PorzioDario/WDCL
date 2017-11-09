@@ -47,9 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AST\Condition.cs" />
-    <Compile Include="AST\Expression.cs" />
-    <Compile Include="AST\Node.cs" />
+    <Compile Include="AST\Eval\ConditionNodeEval.cs" />
+    <Compile Include="AST\Eval\ExpressionNodeEval.cs" />
+    <Compile Include="AST\Eval\NodeEval.cs" />
+    <Compile Include="AST\Translate\ConditionNodeTranslate.cs" />
+    <Compile Include="AST\Translate\ExpressionNodeTranslate.cs" />
+    <Compile Include="AST\Translate\NodeTranslate.cs" />
     <Compile Include="ConditionEval.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="Identifiers.cs" />
