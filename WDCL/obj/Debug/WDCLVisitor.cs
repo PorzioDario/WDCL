@@ -41,6 +41,14 @@ public interface IWDCLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitSubcondition([NotNull] WDCLParser.SubconditionContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>comparisonSubCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitComparisonSubCond([NotNull] WDCLParser.ComparisonSubCondContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>true</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// </summary>

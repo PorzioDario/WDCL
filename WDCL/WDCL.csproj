@@ -53,7 +53,8 @@
     <Compile Include="AST\Translate\ConditionNodeTranslate.cs" />
     <Compile Include="AST\Translate\ExpressionNodeTranslate.cs" />
     <Compile Include="AST\Translate\NodeTranslate.cs" />
-    <Compile Include="ConditionEval.cs" />
+    <Compile Include="Eval.cs" />
+    <Compile Include="EvalVisitor.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="Identifiers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

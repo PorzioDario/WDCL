@@ -22,8 +22,8 @@ condition
     | NOT '(' c=condition ')'					#notCond
     | lC=condition op=AND rC=condition			#boolCond
     | lC=condition op=OR rC=condition			#boolCond
-    //| lC=condition EQ rC=condition			#comparisonSubCond
-    //| lC=condition NOTEQ rC=condition			#comparisonSubCond
+    | lC=condition op=EQ rC=condition			#comparisonSubCond
+    | lC=condition op=NOTEQ rC=condition		#comparisonSubCond
 
     //| ID EQ c=condition						#comparisonSubCond
     //| ID NOTEQ c=condition					#comparisonSubCond
@@ -57,9 +57,9 @@ exp
 
 //OPERATORS:
 //	BOOL
-NOT	:	'NOT';
-AND	:	'AND';
-OR	:	'OR';
+NOT	:	N O T;
+AND	:	A N D;
+OR	:	O R;
 //	COMPARISON
 EQ		:	'=';
 NOTEQ	:	'<>';
@@ -68,7 +68,7 @@ LT		:	'<';
 GTEQ	:	'>=';
 GT		:	'>';
 //	SET
-IN		:	'IN';
+IN		:	I N;
 COMMA	:	',';
 //ARITHMETIC
 PLUS_OP		:	'+';
@@ -116,3 +116,10 @@ ESC_SEQ
     :   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
     ;
 
+fragment A:('a'|'A');
+fragment D:('d'|'D');
+fragment I:('i'|'I');
+fragment N:('n'|'N');
+fragment O:('o'|'O');
+fragment R:('r'|'R');
+fragment T:('t'|'T');

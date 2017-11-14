@@ -51,6 +51,21 @@ public partial class WDCLBaseListener : IWDCLListener {
 	public virtual void ExitSubcondition([NotNull] WDCLParser.SubconditionContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>comparisonSubCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterComparisonSubCond([NotNull] WDCLParser.ComparisonSubCondContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>comparisonSubCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitComparisonSubCond([NotNull] WDCLParser.ComparisonSubCondContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>true</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// <para>The default implementation does nothing.</para>

@@ -9,7 +9,7 @@ using Antlr4.Runtime;
 
 namespace WDCL
 {
-    public class ConditionEval : WDCLBaseVisitor<INodeEval>
+    public class EvalVisitor : WDCLBaseVisitor<INodeEval>
     {
         public override INodeEval VisitParse([NotNull] WDCLParser.ParseContext context)
         {
@@ -81,7 +81,7 @@ namespace WDCL
             
             switch (type)
             {
-                case WDCLParser.INT: 
+                case WDCLParser.INT: return new ExpressionNodeEval() { Type = DataType.Int, Value = int.Parse(context.GetText()) };
                 case WDCLParser.FLOAT: return new ExpressionNodeEval() { Type = DataType.Double, Value = double.Parse(context.GetText()) };
                 case WDCLParser.STRING: return new ExpressionNodeEval() { Type = DataType.String, Value = context.GetText() };
                 case WDCLParser.DATE:
@@ -156,6 +156,23 @@ namespace WDCL
             var subcondition = ids.getID(sub);
 
             return new ConditionNodeEval() { Value = (bool)subcondition };
+        }
+
+        public override INodeEval VisitComparisonSubCond([NotNull] WDCLParser.ComparisonSubCondContext context)
+        {
+            var left = (ConditionNodeEval)Visit(context.lC);
+            var right = (ConditionNodeEval)Visit(context.rC);
+            var op = context.op;
+
+            bool result;
+            switch (op.Type)
+            {
+                case WDCLParser.EQ: result = left.Value == right.Value; break;
+                case WDCLParser.NOTEQ: result = left.Value != right.Value; break;
+                default: throw new ArgumentException("Unknown operator " + op.Text);
+            }
+
+            return new ConditionNodeEval() { Value = result };
         }
     }
 }
