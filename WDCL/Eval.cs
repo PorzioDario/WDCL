@@ -35,7 +35,7 @@ namespace WDCL
             WDCLParser.ExpContext parse = speakParser.exp();
 
             EvalVisitor visitor = new EvalVisitor();
-            ExpressionNodeEval result = (ExpressionNodeEval)visitor.VisitExp(parse);
+            ExpressionNodeEval result = (ExpressionNodeEval)visitor.Visit(parse);
 
             return result;
         }

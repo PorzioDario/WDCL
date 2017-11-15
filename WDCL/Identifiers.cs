@@ -51,5 +51,28 @@ namespace WDCL
 
             identifiers[id] = new KeyValuePair<DataType, object>(previousType, value);
         }
+
+        public void resolveID(string id, object value, DataType t)
+        {
+            var previousType = identifiers[id].Key;
+
+            if (previousType != DataType.Cond && previousType != DataType.Expr)
+            {
+                throw new Exception("Resolve is allowed only for complex drivers and subconditions");
+            }
+
+            if (previousType == DataType.Cond && t != DataType.Bool)
+            {
+                throw new Exception("Cannot resolve a subcondition in a non-boolean value");
+            }
+
+            if ((previousType == DataType.Expr) && 
+                ((t == DataType.Bool) || (t == DataType.Expr) || (t == DataType.Cond)))
+            {
+                throw new Exception("Cannot resolve a complex driver in a bool value, Expressions or Conditions");
+            }
+
+            identifiers[id] = new KeyValuePair<DataType, object>(t, value);
+        }
     }
 }

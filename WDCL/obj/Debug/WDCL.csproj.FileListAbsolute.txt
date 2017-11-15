@@ -11,3 +11,4 @@ c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\Antlr
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\Antlr4.Runtime.xml
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.dll
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.pdb
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.csprojResolveAssemblyReference.cache

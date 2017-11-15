@@ -137,11 +137,21 @@ namespace WDCL
 
             DataType t = ids.getTypeID(drv);
 
-            if (t == DataType.Bool) throw new ArgumentException("Cannot use bool driver in a Expression");
+            if (t == DataType.Bool || t == DataType.Cond) throw new ArgumentException("Cannot use bool driver or subcondition in a Expression");
+
+            //resolve complex driver
+            if (t == DataType.Expr)
+            {
+                string complexDriver = (string)ids.getID(drv);
+
+                var expression = Eval.EvalExpression(complexDriver);
+
+                ids.resolveID(drv,expression.Value,expression.Type);
+            }
 
             var driver = ids.getID(drv);
 
-            return new ExpressionNodeEval() { Type = t, Value = driver };
+            return new ExpressionNodeEval() { Type = ids.getTypeID(drv), Value = driver };
         }
 
         public override INodeEval VisitSubcondition([NotNull] WDCLParser.SubconditionContext context)
@@ -150,6 +160,16 @@ namespace WDCL
             var ids = Identifiers.Instance;
 
             DataType t = ids.getTypeID(sub);
+
+            if (t == DataType.Cond)
+            {
+                string subcond = (string)ids.getID(sub);
+                bool value = Eval.EvalCondition(subcond);
+                
+                ids.resolveID(sub, value, DataType.Bool);
+
+                return new ConditionNodeEval() { Value = value };
+            }
             
             if (t != DataType.Bool) throw new ArgumentException("Cannot use driver in a Condition unless it is boolean");
 

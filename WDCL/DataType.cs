@@ -12,8 +12,8 @@ namespace WDCL
         Double,
         String,
         Date,
-        Bool//,
-        //Expr,                //complexdriver
-        //Cond                 //subcondition
+        Bool,
+        Expr,                //complexdriver
+        Cond                 //subcondition
     }
 }
