@@ -107,6 +107,18 @@ public partial class WDCLBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	public virtual Result VisitParenCond([NotNull] WDCLParser.ParenCondContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSetCond([NotNull] WDCLParser.SetCondContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolCond</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// <para>

@@ -28,8 +28,8 @@ condition
     //| ID EQ c=condition						#comparisonSubCond
     //| ID NOTEQ c=condition					#comparisonSubCond
 
-	//| ID IN '(' exp (COMMA exp)* ')'			#setCond
-	//| ID NOT IN '(' exp (COMMA exp)* ')'		#setCond
+	| drv=ID IN '(' exp (COMMA exp)* ')'			#setCond
+	| drv=ID n=NOT IN '(' exp (COMMA exp)* ')'		#setCond
 ;
 
 exp

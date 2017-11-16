@@ -126,6 +126,21 @@ public partial class WDCLBaseListener : IWDCLListener {
 	public virtual void ExitParenCond([NotNull] WDCLParser.ParenCondContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSetCond([NotNull] WDCLParser.SetCondContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSetCond([NotNull] WDCLParser.SetCondContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>boolCond</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// <para>The default implementation does nothing.</para>

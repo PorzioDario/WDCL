@@ -289,6 +289,37 @@ public partial class WDCLParser : Parser {
 			else return visitor.VisitChildren(this);
 		}
 	}
+	public partial class SetCondContext : ConditionContext {
+		public IToken drv;
+		public IToken n;
+		public ITerminalNode IN() { return GetToken(WDCLParser.IN, 0); }
+		public ExpContext[] exp() {
+			return GetRuleContexts<ExpContext>();
+		}
+		public ExpContext exp(int i) {
+			return GetRuleContext<ExpContext>(i);
+		}
+		public ITerminalNode ID() { return GetToken(WDCLParser.ID, 0); }
+		public ITerminalNode[] COMMA() { return GetTokens(WDCLParser.COMMA); }
+		public ITerminalNode COMMA(int i) {
+			return GetToken(WDCLParser.COMMA, i);
+		}
+		public ITerminalNode NOT() { return GetToken(WDCLParser.NOT, 0); }
+		public SetCondContext(ConditionContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IWDCLListener typedListener = listener as IWDCLListener;
+			if (typedListener != null) typedListener.EnterSetCond(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IWDCLListener typedListener = listener as IWDCLListener;
+			if (typedListener != null) typedListener.ExitSetCond(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IWDCLVisitor<TResult> typedVisitor = visitor as IWDCLVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitSetCond(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
 	public partial class BoolCondContext : ConditionContext {
 		public ConditionContext lC;
 		public IToken op;
@@ -350,13 +381,14 @@ public partial class WDCLParser : Parser {
 		ConditionContext _prevctx = _localctx;
 		int _startState = 2;
 		EnterRecursionRule(_localctx, 2, RULE_condition, _p);
+		int _la;
 		try {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 46;
+			State = 73;
 			_errHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(_input,0,_ctx) ) {
+			switch ( Interpreter.AdaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
 				_localctx = new TrueContext(_localctx);
@@ -473,28 +505,83 @@ public partial class WDCLParser : Parser {
 				State = 44; Match(T__3);
 				}
 				break;
+
+			case 12:
+				{
+				_localctx = new SetCondContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				State = 46; ((SetCondContext)_localctx).drv = Match(ID);
+				State = 47; Match(IN);
+				State = 48; Match(T__2);
+				State = 49; exp(0);
+				State = 54;
+				_errHandler.Sync(this);
+				_la = _input.La(1);
+				while (_la==COMMA) {
+					{
+					{
+					State = 50; Match(COMMA);
+					State = 51; exp(0);
+					}
+					}
+					State = 56;
+					_errHandler.Sync(this);
+					_la = _input.La(1);
+				}
+				State = 57; Match(T__3);
+				}
+				break;
+
+			case 13:
+				{
+				_localctx = new SetCondContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				State = 59; ((SetCondContext)_localctx).drv = Match(ID);
+				State = 60; ((SetCondContext)_localctx).n = Match(NOT);
+				State = 61; Match(IN);
+				State = 62; Match(T__2);
+				State = 63; exp(0);
+				State = 68;
+				_errHandler.Sync(this);
+				_la = _input.La(1);
+				while (_la==COMMA) {
+					{
+					{
+					State = 64; Match(COMMA);
+					State = 65; exp(0);
+					}
+					}
+					State = 70;
+					_errHandler.Sync(this);
+					_la = _input.La(1);
+				}
+				State = 71; Match(T__3);
+				}
+				break;
 			}
 			_ctx.stop = _input.Lt(-1);
-			State = 62;
+			State = 89;
 			_errHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(_input,2,_ctx);
+			_alt = Interpreter.AdaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 60;
+					State = 87;
 					_errHandler.Sync(this);
-					switch ( Interpreter.AdaptivePredict(_input,1,_ctx) ) {
+					switch ( Interpreter.AdaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new BoolCondContext(new ConditionContext(_parentctx, _parentState));
 						((BoolCondContext)_localctx).lC = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_condition);
-						State = 48;
-						if (!(Precpred(_ctx, 4))) throw new FailedPredicateException(this, "Precpred(_ctx, 4)");
-						State = 49; ((BoolCondContext)_localctx).op = Match(AND);
-						State = 50; ((BoolCondContext)_localctx).rC = condition(5);
+						State = 75;
+						if (!(Precpred(_ctx, 6))) throw new FailedPredicateException(this, "Precpred(_ctx, 6)");
+						State = 76; ((BoolCondContext)_localctx).op = Match(AND);
+						State = 77; ((BoolCondContext)_localctx).rC = condition(7);
 						}
 						break;
 
@@ -503,10 +590,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new BoolCondContext(new ConditionContext(_parentctx, _parentState));
 						((BoolCondContext)_localctx).lC = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_condition);
-						State = 51;
-						if (!(Precpred(_ctx, 3))) throw new FailedPredicateException(this, "Precpred(_ctx, 3)");
-						State = 52; ((BoolCondContext)_localctx).op = Match(OR);
-						State = 53; ((BoolCondContext)_localctx).rC = condition(4);
+						State = 78;
+						if (!(Precpred(_ctx, 5))) throw new FailedPredicateException(this, "Precpred(_ctx, 5)");
+						State = 79; ((BoolCondContext)_localctx).op = Match(OR);
+						State = 80; ((BoolCondContext)_localctx).rC = condition(6);
 						}
 						break;
 
@@ -515,10 +602,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new ComparisonSubCondContext(new ConditionContext(_parentctx, _parentState));
 						((ComparisonSubCondContext)_localctx).lC = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_condition);
-						State = 54;
-						if (!(Precpred(_ctx, 2))) throw new FailedPredicateException(this, "Precpred(_ctx, 2)");
-						State = 55; ((ComparisonSubCondContext)_localctx).op = Match(EQ);
-						State = 56; ((ComparisonSubCondContext)_localctx).rC = condition(3);
+						State = 81;
+						if (!(Precpred(_ctx, 4))) throw new FailedPredicateException(this, "Precpred(_ctx, 4)");
+						State = 82; ((ComparisonSubCondContext)_localctx).op = Match(EQ);
+						State = 83; ((ComparisonSubCondContext)_localctx).rC = condition(5);
 						}
 						break;
 
@@ -527,18 +614,18 @@ public partial class WDCLParser : Parser {
 						_localctx = new ComparisonSubCondContext(new ConditionContext(_parentctx, _parentState));
 						((ComparisonSubCondContext)_localctx).lC = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_condition);
-						State = 57;
-						if (!(Precpred(_ctx, 1))) throw new FailedPredicateException(this, "Precpred(_ctx, 1)");
-						State = 58; ((ComparisonSubCondContext)_localctx).op = Match(NOTEQ);
-						State = 59; ((ComparisonSubCondContext)_localctx).rC = condition(2);
+						State = 84;
+						if (!(Precpred(_ctx, 3))) throw new FailedPredicateException(this, "Precpred(_ctx, 3)");
+						State = 85; ((ComparisonSubCondContext)_localctx).op = Match(NOTEQ);
+						State = 86; ((ComparisonSubCondContext)_localctx).rC = condition(4);
 						}
 						break;
 					}
 					} 
 				}
-				State = 64;
+				State = 91;
 				_errHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(_input,2,_ctx);
+				_alt = Interpreter.AdaptivePredict(_input,4,_ctx);
 			}
 			}
 		}
@@ -694,7 +781,7 @@ public partial class WDCLParser : Parser {
 			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 77;
+			State = 104;
 			_errHandler.Sync(this);
 			switch (_input.La(1)) {
 			case INT:
@@ -703,7 +790,7 @@ public partial class WDCLParser : Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				State = 66; ((AtomExpContext)_localctx).atom = Match(INT);
+				State = 93; ((AtomExpContext)_localctx).atom = Match(INT);
 				}
 				break;
 			case FLOAT:
@@ -711,7 +798,7 @@ public partial class WDCLParser : Parser {
 				_localctx = new AtomExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 67; ((AtomExpContext)_localctx).atom = Match(FLOAT);
+				State = 94; ((AtomExpContext)_localctx).atom = Match(FLOAT);
 				}
 				break;
 			case STRING:
@@ -719,7 +806,7 @@ public partial class WDCLParser : Parser {
 				_localctx = new AtomExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 68; ((AtomExpContext)_localctx).atom = Match(STRING);
+				State = 95; ((AtomExpContext)_localctx).atom = Match(STRING);
 				}
 				break;
 			case DATE:
@@ -727,7 +814,7 @@ public partial class WDCLParser : Parser {
 				_localctx = new AtomExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 69; ((AtomExpContext)_localctx).atom = Match(DATE);
+				State = 96; ((AtomExpContext)_localctx).atom = Match(DATE);
 				}
 				break;
 			case ID:
@@ -735,7 +822,7 @@ public partial class WDCLParser : Parser {
 				_localctx = new DriverExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 70; ((DriverExpContext)_localctx).drv = Match(ID);
+				State = 97; ((DriverExpContext)_localctx).drv = Match(ID);
 				}
 				break;
 			case T__2:
@@ -743,9 +830,9 @@ public partial class WDCLParser : Parser {
 				_localctx = new ParenExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 71; Match(T__2);
-				State = 72; ((ParenExpContext)_localctx).e = exp(0);
-				State = 73; Match(T__3);
+				State = 98; Match(T__2);
+				State = 99; ((ParenExpContext)_localctx).e = exp(0);
+				State = 100; Match(T__3);
 				}
 				break;
 			case MINUS_OP:
@@ -753,34 +840,34 @@ public partial class WDCLParser : Parser {
 				_localctx = new UnarExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				State = 75; ((UnarExpContext)_localctx).op = Match(MINUS_OP);
-				State = 76; ((UnarExpContext)_localctx).e = exp(1);
+				State = 102; ((UnarExpContext)_localctx).op = Match(MINUS_OP);
+				State = 103; ((UnarExpContext)_localctx).e = exp(1);
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.Lt(-1);
-			State = 99;
+			State = 126;
 			_errHandler.Sync(this);
-			_alt = Interpreter.AdaptivePredict(_input,5,_ctx);
+			_alt = Interpreter.AdaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) TriggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					State = 97;
+					State = 124;
 					_errHandler.Sync(this);
-					switch ( Interpreter.AdaptivePredict(_input,4,_ctx) ) {
+					switch ( Interpreter.AdaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 79;
+						State = 106;
 						if (!(Precpred(_ctx, 7))) throw new FailedPredicateException(this, "Precpred(_ctx, 7)");
-						State = 80; ((BinarExpContext)_localctx).op = Match(PLUS_OP);
-						State = 81; ((BinarExpContext)_localctx).rE = exp(8);
+						State = 107; ((BinarExpContext)_localctx).op = Match(PLUS_OP);
+						State = 108; ((BinarExpContext)_localctx).rE = exp(8);
 						}
 						break;
 
@@ -789,10 +876,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 82;
+						State = 109;
 						if (!(Precpred(_ctx, 6))) throw new FailedPredicateException(this, "Precpred(_ctx, 6)");
-						State = 83; ((BinarExpContext)_localctx).op = Match(MINUS_OP);
-						State = 84; ((BinarExpContext)_localctx).rE = exp(7);
+						State = 110; ((BinarExpContext)_localctx).op = Match(MINUS_OP);
+						State = 111; ((BinarExpContext)_localctx).rE = exp(7);
 						}
 						break;
 
@@ -801,10 +888,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 85;
+						State = 112;
 						if (!(Precpred(_ctx, 5))) throw new FailedPredicateException(this, "Precpred(_ctx, 5)");
-						State = 86; ((BinarExpContext)_localctx).op = Match(MUL_OP);
-						State = 87; ((BinarExpContext)_localctx).rE = exp(6);
+						State = 113; ((BinarExpContext)_localctx).op = Match(MUL_OP);
+						State = 114; ((BinarExpContext)_localctx).rE = exp(6);
 						}
 						break;
 
@@ -813,10 +900,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 88;
+						State = 115;
 						if (!(Precpred(_ctx, 4))) throw new FailedPredicateException(this, "Precpred(_ctx, 4)");
-						State = 89; ((BinarExpContext)_localctx).op = Match(DIV_OP);
-						State = 90; ((BinarExpContext)_localctx).rE = exp(5);
+						State = 116; ((BinarExpContext)_localctx).op = Match(DIV_OP);
+						State = 117; ((BinarExpContext)_localctx).rE = exp(5);
 						}
 						break;
 
@@ -825,10 +912,10 @@ public partial class WDCLParser : Parser {
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 91;
+						State = 118;
 						if (!(Precpred(_ctx, 3))) throw new FailedPredicateException(this, "Precpred(_ctx, 3)");
-						State = 92; ((BinarExpContext)_localctx).op = Match(MOD_OP);
-						State = 93; ((BinarExpContext)_localctx).rE = exp(4);
+						State = 119; ((BinarExpContext)_localctx).op = Match(MOD_OP);
+						State = 120; ((BinarExpContext)_localctx).rE = exp(4);
 						}
 						break;
 
@@ -837,18 +924,18 @@ public partial class WDCLParser : Parser {
 						_localctx = new BinarExpContext(new ExpContext(_parentctx, _parentState));
 						((BinarExpContext)_localctx).lE = _prevctx;
 						PushNewRecursionContext(_localctx, _startState, RULE_exp);
-						State = 94;
+						State = 121;
 						if (!(Precpred(_ctx, 2))) throw new FailedPredicateException(this, "Precpred(_ctx, 2)");
-						State = 95; ((BinarExpContext)_localctx).op = Match(POW_OP);
-						State = 96; ((BinarExpContext)_localctx).rE = exp(3);
+						State = 122; ((BinarExpContext)_localctx).op = Match(POW_OP);
+						State = 123; ((BinarExpContext)_localctx).rE = exp(3);
 						}
 						break;
 					}
 					} 
 				}
-				State = 101;
+				State = 128;
 				_errHandler.Sync(this);
-				_alt = Interpreter.AdaptivePredict(_input,5,_ctx);
+				_alt = Interpreter.AdaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -873,13 +960,13 @@ public partial class WDCLParser : Parser {
 	}
 	private bool condition_sempred(ConditionContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return Precpred(_ctx, 4);
+		case 0: return Precpred(_ctx, 6);
 
-		case 1: return Precpred(_ctx, 3);
+		case 1: return Precpred(_ctx, 5);
 
-		case 2: return Precpred(_ctx, 2);
+		case 2: return Precpred(_ctx, 4);
 
-		case 3: return Precpred(_ctx, 1);
+		case 3: return Precpred(_ctx, 3);
 		}
 		return true;
 	}
@@ -901,47 +988,54 @@ public partial class WDCLParser : Parser {
 	}
 
 	public static readonly string _serializedATN =
-		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x1Ei\x4\x2\t\x2"+
-		"\x4\x3\t\x3\x4\x4\t\x4\x3\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
+		"\x3\xAF6F\x8320\x479D\xB75C\x4880\x1605\x191C\xAB37\x3\x1E\x84\x4\x2\t"+
+		"\x2\x4\x3\t\x3\x4\x4\t\x4\x3\x2\x3\x2\x3\x2\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
 		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
 		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
-		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x5\x3\x31\n\x3"+
 		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
-		"\x3\a\x3?\n\x3\f\x3\xE\x3\x42\v\x3\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4"+
-		"\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4P\n\x4\x3\x4\x3\x4\x3\x4\x3"+
-		"\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4"+
-		"\x3\x4\x3\x4\x3\x4\a\x4\x64\n\x4\f\x4\xE\x4g\v\x4\x3\x4\x2\x2\x4\x4\x6"+
-		"\x5\x2\x2\x4\x2\x6\x2\x2\x2\x7F\x2\b\x3\x2\x2\x2\x4\x30\x3\x2\x2\x2\x6"+
-		"O\x3\x2\x2\x2\b\t\x5\x4\x3\x2\t\n\a\x2\x2\x3\n\x3\x3\x2\x2\x2\v\f\b\x3"+
-		"\x1\x2\f\x31\a\x3\x2\x2\r\x31\a\x4\x2\x2\xE\x31\a\x18\x2\x2\xF\x10\a\x5"+
-		"\x2\x2\x10\x11\x5\x4\x3\x2\x11\x12\a\x6\x2\x2\x12\x31\x3\x2\x2\x2\x13"+
-		"\x14\x5\x6\x4\x2\x14\x15\a\n\x2\x2\x15\x16\x5\x6\x4\x2\x16\x31\x3\x2\x2"+
-		"\x2\x17\x18\x5\x6\x4\x2\x18\x19\a\v\x2\x2\x19\x1A\x5\x6\x4\x2\x1A\x31"+
-		"\x3\x2\x2\x2\x1B\x1C\x5\x6\x4\x2\x1C\x1D\a\r\x2\x2\x1D\x1E\x5\x6\x4\x2"+
-		"\x1E\x31\x3\x2\x2\x2\x1F \x5\x6\x4\x2 !\a\xF\x2\x2!\"\x5\x6\x4\x2\"\x31"+
-		"\x3\x2\x2\x2#$\x5\x6\x4\x2$%\a\f\x2\x2%&\x5\x6\x4\x2&\x31\x3\x2\x2\x2"+
-		"\'(\x5\x6\x4\x2()\a\xE\x2\x2)*\x5\x6\x4\x2*\x31\x3\x2\x2\x2+,\a\a\x2\x2"+
-		",-\a\x5\x2\x2-.\x5\x4\x3\x2./\a\x6\x2\x2/\x31\x3\x2\x2\x2\x30\v\x3\x2"+
-		"\x2\x2\x30\r\x3\x2\x2\x2\x30\xE\x3\x2\x2\x2\x30\xF\x3\x2\x2\x2\x30\x13"+
-		"\x3\x2\x2\x2\x30\x17\x3\x2\x2\x2\x30\x1B\x3\x2\x2\x2\x30\x1F\x3\x2\x2"+
-		"\x2\x30#\x3\x2\x2\x2\x30\'\x3\x2\x2\x2\x30+\x3\x2\x2\x2\x31@\x3\x2\x2"+
-		"\x2\x32\x33\f\x6\x2\x2\x33\x34\a\b\x2\x2\x34?\x5\x4\x3\a\x35\x36\f\x5"+
-		"\x2\x2\x36\x37\a\t\x2\x2\x37?\x5\x4\x3\x6\x38\x39\f\x4\x2\x2\x39:\a\n"+
-		"\x2\x2:?\x5\x4\x3\x5;<\f\x3\x2\x2<=\a\v\x2\x2=?\x5\x4\x3\x4>\x32\x3\x2"+
-		"\x2\x2>\x35\x3\x2\x2\x2>\x38\x3\x2\x2\x2>;\x3\x2\x2\x2?\x42\x3\x2\x2\x2"+
-		"@>\x3\x2\x2\x2@\x41\x3\x2\x2\x2\x41\x5\x3\x2\x2\x2\x42@\x3\x2\x2\x2\x43"+
-		"\x44\b\x4\x1\x2\x44P\a\x19\x2\x2\x45P\a\x1A\x2\x2\x46P\a\x1E\x2\x2GP\a"+
-		"\x1B\x2\x2HP\a\x18\x2\x2IJ\a\x5\x2\x2JK\x5\x6\x4\x2KL\a\x6\x2\x2LP\x3"+
-		"\x2\x2\x2MN\a\x13\x2\x2NP\x5\x6\x4\x3O\x43\x3\x2\x2\x2O\x45\x3\x2\x2\x2"+
-		"O\x46\x3\x2\x2\x2OG\x3\x2\x2\x2OH\x3\x2\x2\x2OI\x3\x2\x2\x2OM\x3\x2\x2"+
-		"\x2P\x65\x3\x2\x2\x2QR\f\t\x2\x2RS\a\x12\x2\x2S\x64\x5\x6\x4\nTU\f\b\x2"+
-		"\x2UV\a\x13\x2\x2V\x64\x5\x6\x4\tWX\f\a\x2\x2XY\a\x14\x2\x2Y\x64\x5\x6"+
-		"\x4\bZ[\f\x6\x2\x2[\\\a\x15\x2\x2\\\x64\x5\x6\x4\a]^\f\x5\x2\x2^_\a\x16"+
-		"\x2\x2_\x64\x5\x6\x4\x6`\x61\f\x4\x2\x2\x61\x62\a\x17\x2\x2\x62\x64\x5"+
-		"\x6\x4\x5\x63Q\x3\x2\x2\x2\x63T\x3\x2\x2\x2\x63W\x3\x2\x2\x2\x63Z\x3\x2"+
-		"\x2\x2\x63]\x3\x2\x2\x2\x63`\x3\x2\x2\x2\x64g\x3\x2\x2\x2\x65\x63\x3\x2"+
-		"\x2\x2\x65\x66\x3\x2\x2\x2\x66\a\x3\x2\x2\x2g\x65\x3\x2\x2\x2\b\x30>@"+
-		"O\x63\x65";
+		"\x3\x3\x3\x3\x3\x3\x3\x3\a\x3\x37\n\x3\f\x3\xE\x3:\v\x3\x3\x3\x3\x3\x3"+
+		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\a\x3\x45\n\x3\f\x3\xE\x3H\v\x3"+
+		"\x3\x3\x3\x3\x5\x3L\n\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3\x3"+
+		"\x3\x3\x3\x3\x3\x3\x3\x3\x3\a\x3Z\n\x3\f\x3\xE\x3]\v\x3\x3\x4\x3\x4\x3"+
+		"\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x5\x4k\n\x4"+
+		"\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3"+
+		"\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\x3\x4\a\x4\x7F\n\x4\f\x4\xE\x4\x82\v"+
+		"\x4\x3\x4\x2\x2\x4\x4\x6\x5\x2\x2\x4\x2\x6\x2\x2\x2\x9E\x2\b\x3\x2\x2"+
+		"\x2\x4K\x3\x2\x2\x2\x6j\x3\x2\x2\x2\b\t\x5\x4\x3\x2\t\n\a\x2\x2\x3\n\x3"+
+		"\x3\x2\x2\x2\v\f\b\x3\x1\x2\fL\a\x3\x2\x2\rL\a\x4\x2\x2\xEL\a\x18\x2\x2"+
+		"\xF\x10\a\x5\x2\x2\x10\x11\x5\x4\x3\x2\x11\x12\a\x6\x2\x2\x12L\x3\x2\x2"+
+		"\x2\x13\x14\x5\x6\x4\x2\x14\x15\a\n\x2\x2\x15\x16\x5\x6\x4\x2\x16L\x3"+
+		"\x2\x2\x2\x17\x18\x5\x6\x4\x2\x18\x19\a\v\x2\x2\x19\x1A\x5\x6\x4\x2\x1A"+
+		"L\x3\x2\x2\x2\x1B\x1C\x5\x6\x4\x2\x1C\x1D\a\r\x2\x2\x1D\x1E\x5\x6\x4\x2"+
+		"\x1EL\x3\x2\x2\x2\x1F \x5\x6\x4\x2 !\a\xF\x2\x2!\"\x5\x6\x4\x2\"L\x3\x2"+
+		"\x2\x2#$\x5\x6\x4\x2$%\a\f\x2\x2%&\x5\x6\x4\x2&L\x3\x2\x2\x2\'(\x5\x6"+
+		"\x4\x2()\a\xE\x2\x2)*\x5\x6\x4\x2*L\x3\x2\x2\x2+,\a\a\x2\x2,-\a\x5\x2"+
+		"\x2-.\x5\x4\x3\x2./\a\x6\x2\x2/L\x3\x2\x2\x2\x30\x31\a\x18\x2\x2\x31\x32"+
+		"\a\x10\x2\x2\x32\x33\a\x5\x2\x2\x33\x38\x5\x6\x4\x2\x34\x35\a\x11\x2\x2"+
+		"\x35\x37\x5\x6\x4\x2\x36\x34\x3\x2\x2\x2\x37:\x3\x2\x2\x2\x38\x36\x3\x2"+
+		"\x2\x2\x38\x39\x3\x2\x2\x2\x39;\x3\x2\x2\x2:\x38\x3\x2\x2\x2;<\a\x6\x2"+
+		"\x2<L\x3\x2\x2\x2=>\a\x18\x2\x2>?\a\a\x2\x2?@\a\x10\x2\x2@\x41\a\x5\x2"+
+		"\x2\x41\x46\x5\x6\x4\x2\x42\x43\a\x11\x2\x2\x43\x45\x5\x6\x4\x2\x44\x42"+
+		"\x3\x2\x2\x2\x45H\x3\x2\x2\x2\x46\x44\x3\x2\x2\x2\x46G\x3\x2\x2\x2GI\x3"+
+		"\x2\x2\x2H\x46\x3\x2\x2\x2IJ\a\x6\x2\x2JL\x3\x2\x2\x2K\v\x3\x2\x2\x2K"+
+		"\r\x3\x2\x2\x2K\xE\x3\x2\x2\x2K\xF\x3\x2\x2\x2K\x13\x3\x2\x2\x2K\x17\x3"+
+		"\x2\x2\x2K\x1B\x3\x2\x2\x2K\x1F\x3\x2\x2\x2K#\x3\x2\x2\x2K\'\x3\x2\x2"+
+		"\x2K+\x3\x2\x2\x2K\x30\x3\x2\x2\x2K=\x3\x2\x2\x2L[\x3\x2\x2\x2MN\f\b\x2"+
+		"\x2NO\a\b\x2\x2OZ\x5\x4\x3\tPQ\f\a\x2\x2QR\a\t\x2\x2RZ\x5\x4\x3\bST\f"+
+		"\x6\x2\x2TU\a\n\x2\x2UZ\x5\x4\x3\aVW\f\x5\x2\x2WX\a\v\x2\x2XZ\x5\x4\x3"+
+		"\x6YM\x3\x2\x2\x2YP\x3\x2\x2\x2YS\x3\x2\x2\x2YV\x3\x2\x2\x2Z]\x3\x2\x2"+
+		"\x2[Y\x3\x2\x2\x2[\\\x3\x2\x2\x2\\\x5\x3\x2\x2\x2][\x3\x2\x2\x2^_\b\x4"+
+		"\x1\x2_k\a\x19\x2\x2`k\a\x1A\x2\x2\x61k\a\x1E\x2\x2\x62k\a\x1B\x2\x2\x63"+
+		"k\a\x18\x2\x2\x64\x65\a\x5\x2\x2\x65\x66\x5\x6\x4\x2\x66g\a\x6\x2\x2g"+
+		"k\x3\x2\x2\x2hi\a\x13\x2\x2ik\x5\x6\x4\x3j^\x3\x2\x2\x2j`\x3\x2\x2\x2"+
+		"j\x61\x3\x2\x2\x2j\x62\x3\x2\x2\x2j\x63\x3\x2\x2\x2j\x64\x3\x2\x2\x2j"+
+		"h\x3\x2\x2\x2k\x80\x3\x2\x2\x2lm\f\t\x2\x2mn\a\x12\x2\x2n\x7F\x5\x6\x4"+
+		"\nop\f\b\x2\x2pq\a\x13\x2\x2q\x7F\x5\x6\x4\trs\f\a\x2\x2st\a\x14\x2\x2"+
+		"t\x7F\x5\x6\x4\buv\f\x6\x2\x2vw\a\x15\x2\x2w\x7F\x5\x6\x4\axy\f\x5\x2"+
+		"\x2yz\a\x16\x2\x2z\x7F\x5\x6\x4\x6{|\f\x4\x2\x2|}\a\x17\x2\x2}\x7F\x5"+
+		"\x6\x4\x5~l\x3\x2\x2\x2~o\x3\x2\x2\x2~r\x3\x2\x2\x2~u\x3\x2\x2\x2~x\x3"+
+		"\x2\x2\x2~{\x3\x2\x2\x2\x7F\x82\x3\x2\x2\x2\x80~\x3\x2\x2\x2\x80\x81\x3"+
+		"\x2\x2\x2\x81\a\x3\x2\x2\x2\x82\x80\x3\x2\x2\x2\n\x38\x46KY[j~\x80";
 	public static readonly ATN _ATN =
 		new ATNDeserializer().Deserialize(_serializedATN.ToCharArray());
 }

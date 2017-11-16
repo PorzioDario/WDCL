@@ -81,6 +81,14 @@ public interface IWDCLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitParenCond([NotNull] WDCLParser.ParenCondContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSetCond([NotNull] WDCLParser.SetCondContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>boolCond</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// </summary>

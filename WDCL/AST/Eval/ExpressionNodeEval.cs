@@ -640,7 +640,7 @@ namespace WDCL.AST
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            return this == obj;
         }
 
         public override int GetHashCode()
@@ -654,5 +654,18 @@ namespace WDCL.AST
         }
 
         #endregion
+    }
+
+    public class exprComparer : IEqualityComparer<ExpressionNodeEval>
+    {
+        public bool Equals(ExpressionNodeEval x, ExpressionNodeEval y)
+        {
+            return x == y;
+        }
+
+        public int GetHashCode(ExpressionNodeEval obj)
+        {
+            return obj.Type.GetHashCode() + obj.Value.GetHashCode();
+        }
     }
 }

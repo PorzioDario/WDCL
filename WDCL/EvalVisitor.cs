@@ -194,5 +194,50 @@ namespace WDCL
 
             return new ConditionNodeEval() { Value = result };
         }
+
+        public override INodeEval VisitSetCond([NotNull] WDCLParser.SetCondContext context)
+        {
+            var drv = context.drv.Text;
+            var ids = Identifiers.Instance;
+
+            DataType t = ids.getTypeID(drv);
+
+            if (t == DataType.Bool || t == DataType.Cond) throw new ArgumentException("Cannot use bool driver or subcondition in a Set Condition");
+
+            //resolve complex driver
+            if (t == DataType.Expr)
+            {
+                string complexDriver = (string)ids.getID(drv);
+
+                var expression = Eval.EvalExpression(complexDriver);
+
+                ids.resolveID(drv, expression.Value, expression.Type);
+            }
+            
+            var driver = new ExpressionNodeEval() { Type = ids.getTypeID(drv), Value = ids.getID(drv) };
+
+            EvalVisitor visitor = new EvalVisitor();
+            var expList = context.exp();
+            List<ExpressionNodeEval> expressions = new List<ExpressionNodeEval>();
+
+            foreach (WDCLParser.ExpContext e in expList)
+            {
+                ExpressionNodeEval result;
+                result = (ExpressionNodeEval)visitor.Visit(e);
+                if (result.Type != t)
+                {
+                    throw new ArgumentException("Each element of the list must be of the same type of the driver");
+                }
+
+                expressions.Add(result);
+            }
+            
+            bool value = expressions.Contains(driver, new exprComparer());
+
+            if (context.n != null)
+                value = !value;
+
+            return new ConditionNodeEval() { Value = value };
+        }
     }
 }

@@ -110,6 +110,19 @@ public interface IWDCLListener : IParseTreeListener {
 	void ExitParenCond([NotNull] WDCLParser.ParenCondContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetCond([NotNull] WDCLParser.SetCondContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>setCond</c>
+	/// labeled alternative in <see cref="WDCLParser.condition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetCond([NotNull] WDCLParser.SetCondContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>boolCond</c>
 	/// labeled alternative in <see cref="WDCLParser.condition"/>.
 	/// </summary>
