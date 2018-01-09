@@ -1,5 +1,15 @@
 grammar WDCL;
 
+tokens { BOOLID, EXPRID }
+
+@lexer::members {
+	public static int COMMENTS = 1;
+	public static int WHITE_SPACE = 2;
+	public static int INVALID_CHAR = 3;
+
+	public bool isACondition(string id) { return Identifiers.isCondition(id); }
+}
+
 /*
  * Parser Rules
  */
@@ -9,46 +19,41 @@ parse
 	;
 
 condition
-	: 'true'									#true
-    | 'false'									#false
-    | sub=ID									#subcondition
-    | '(' c=condition ')'						#parenCond
-    | lE=exp op=EQ rE=exp						#comparisonCond
-    | lE=exp op=NOTEQ rE=exp					#comparisonCond
-    | lE=exp op=LT rE=exp						#comparisonCond
-    | lE=exp op=GT rE=exp						#comparisonCond
-    | lE=exp op=LTEQ rE=exp						#comparisonCond
-    | lE=exp op=GTEQ rE=exp						#comparisonCond
-    | NOT '(' c=condition ')'					#notCond
-    | lC=condition op=AND rC=condition			#boolCond
-    | lC=condition op=OR rC=condition			#boolCond
-    | lC=condition op=EQ rC=condition			#comparisonSubCond
-    | lC=condition op=NOTEQ rC=condition		#comparisonSubCond
+	: TRUE											#true
+    | FALSE											#false
+    | '(' c=condition ')'							#parenCond
+    | lE=exp op=EQ rE=exp							#comparisonCond
+    | lE=exp op=NOTEQ rE=exp						#comparisonCond
+    | lE=exp op=LT rE=exp							#comparisonCond
+    | lE=exp op=GT rE=exp							#comparisonCond
+    | lE=exp op=LTEQ rE=exp							#comparisonCond
+    | lE=exp op=GTEQ rE=exp							#comparisonCond
+    | sub=BOOLID									#subcondition
+    | NOT '(' c=condition ')'						#notCond
+    | lC=condition op=AND rC=condition				#boolCond
+    | lC=condition op=OR rC=condition				#boolCond
+    | lC=condition op=EQ rC=condition				#comparisonSubCond
+    | lC=condition op=NOTEQ rC=condition			#comparisonSubCond
 
-    //| ID EQ c=condition						#comparisonSubCond
-    //| ID NOTEQ c=condition					#comparisonSubCond
+    //| ID EQ c=condition							#comparisonSubCond
+    //| ID NOTEQ c=condition						#comparisonSubCond
 
 	| drv=ID IN '(' exp (COMMA exp)* ')'			#setCond
 	| drv=ID n=NOT IN '(' exp (COMMA exp)* ')'		#setCond
 ;
 
 exp
-	: atom=INT 									#atomExp
-	| atom=FLOAT 								#atomExp
-	| atom=STRING								#atomExp
-	| atom=DATE									#atomExp
-	| drv=ID									#driverExp
-	| '(' e=exp ')'								#parenExp
-	| lE=exp op=PLUS_OP rE=exp					#binarExp
-	| lE=exp op=MINUS_OP rE=exp 				#binarExp
-	| lE=exp op=MUL_OP rE=exp					#binarExp
-	| lE=exp op=DIV_OP rE=exp 					#binarExp
-	| lE=exp op=MOD_OP rE=exp 					#binarExp
-	| lE=exp op=POW_OP rE=exp					#binarExp
-	| op=MINUS_OP e=exp							#unarExp
+	: atom=INT 										#atomExp
+	| atom=FLOAT 									#atomExp
+	| atom=STRING									#atomExp
+	| atom=DATE										#atomExp
+	| drv=EXPRID	 								#driverExp
+	| '(' e=exp ')'									#parenExp
+	| lE=exp op=POW_OP<assoc=right> rE=exp			#binarExp
+	| lE=exp op=(MUL_OP|DIV_OP|MOD_OP) rE=exp		#binarExp
+	| lE=exp op=(PLUS_OP|MINUS_OP) rE=exp			#binarExp
+	| op=MINUS_OP e=exp								#unarExp
 ;
-
-
 
 
 /*
@@ -78,48 +83,71 @@ DIV_OP		:	'/';
 MOD_OP		:	'%';
 POW_OP		:	'^';
 
+TRUE : T R U E ;
+FALSE : F A L S E;
+
 ID
-	:	([a-zA-Z]|'_') ([a-zA-Z0-9]|'_')*
+	:	ID_LETTER (ID_LETTER | DIGIT)*
+		{
+			if(isACondition(Text)) { 
+				Type = WDCLParser.BOOLID;
+			}
+			else {
+				Type = WDCLParser.EXPRID;
+			}
+		}
 	;
 
-//ID  :	([a-z]|[A-Z]|'_') ([a-z]|[A-Z]||[0-9]|'_')*
-//    ;
-
-INT :	[0-9]+
+INT :	DIGIT+
     ;
 
 FLOAT
-    :   [0-9]+ '.' [0-9]+
+    :   DIGIT+ '.' DIGIT+
+	|	'.' DIGIT+
     ;
 
 DATE
     : DIGIT DIGIT DIGIT DIGIT '/' DIGIT DIGIT '/' DIGIT DIGIT
     ;
 
-fragment     DIGIT: [0-9];
-
-
-COMMENT
-    :   '//' ~('\n'|'\r')* '\r'? '\n' -> channel(HIDDEN)
-	;
-
-
-WS  :   ( ' ' | '\t' | '\r' | '\n' ) -> skip
-    ;
-
+/*	OLD VERSION */
 STRING
     :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
+	//|  '\'' ( ESC_SEQ | ~('\\'|'\'') )* '\''
     ;
+
+COMMENT
+    :   '//' ~('\n'|'\r')* '\r'? '\n' -> channel(COMMENTS)
+	;
+
+/*
+STRING : '"' ( ESC | . )*? '"';
+
+LINE_COMMENT : '//' .*? '\r'? '\n' -> channel(HIDDEN)
+
+*/
+
+WS  :   ( ' ' | '\t' | '\r' | '\n' ) -> channel(WHITE_SPACE)
+    ;
+
+UNKNOWN_CHAR : . -> channel(INVALID_CHAR) ;
 
 fragment
 ESC_SEQ
     :   '\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
     ;
 
-fragment A:('a'|'A');
-fragment D:('d'|'D');
-fragment I:('i'|'I');
-fragment N:('n'|'N');
-fragment O:('o'|'O');
-fragment R:('r'|'R');
-fragment T:('t'|'T');
+fragment	DIGIT: [0-9];
+fragment	ID_LETTER: 'a'..'z'|'A'..'Z'|'_';
+fragment	A:('a'|'A');
+fragment	D:('d'|'D');
+fragment	E:('e'|'E');
+fragment	F:('f'|'F');
+fragment	I:('i'|'I');
+fragment	L:('l'|'L');
+fragment	N:('n'|'N');
+fragment	O:('o'|'O');
+fragment	R:('r'|'R');
+fragment	S:('s'|'S');
+fragment	T:('t'|'T');
+fragment	U:('u'|'U');

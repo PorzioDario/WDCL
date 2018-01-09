@@ -9,7 +9,7 @@ using Antlr4.Runtime;
 
 namespace WDCL
 {
-    public class EvalVisitor : WDCLBaseVisitor<INodeEval>
+    internal class EvalVisitor : WDCLBaseVisitor<INodeEval>
     {
         public override INodeEval VisitParse([NotNull] WDCLParser.ParseContext context)
         {
@@ -83,7 +83,7 @@ namespace WDCL
             {
                 case WDCLParser.INT: return new ExpressionNodeEval() { Type = DataType.Int, Value = int.Parse(context.GetText()) };
                 case WDCLParser.FLOAT: return new ExpressionNodeEval() { Type = DataType.Double, Value = double.Parse(context.GetText()) };
-                case WDCLParser.STRING: return new ExpressionNodeEval() { Type = DataType.String, Value = context.GetText() };
+                case WDCLParser.STRING: return new ExpressionNodeEval() { Type = DataType.String, Value = context.GetText().Replace("\"","") };
                 case WDCLParser.DATE:
                     var year = int.Parse(context.atom.Text.Substring(0, 4));
                     var month = int.Parse(context.atom.Text.Substring(5,2));
@@ -142,11 +142,7 @@ namespace WDCL
             //resolve complex driver
             if (t == DataType.Expr)
             {
-                string complexDriver = (string)ids.getID(drv);
-
-                var expression = Eval.EvalExpression(complexDriver);
-
-                ids.resolveID(drv,expression.Value,expression.Type);
+                ids.resolveID(drv);
             }
 
             var driver = ids.getID(drv);
@@ -160,13 +156,12 @@ namespace WDCL
             var ids = Identifiers.Instance;
 
             DataType t = ids.getTypeID(sub);
-
+            
             if (t == DataType.Cond)
             {
-                string subcond = (string)ids.getID(sub);
-                bool value = Eval.EvalCondition(subcond);
+                ids.resolveID(sub);
                 
-                ids.resolveID(sub, value, DataType.Bool);
+                var value = (bool)ids.getID(sub);
 
                 return new ConditionNodeEval() { Value = value };
             }
@@ -207,11 +202,7 @@ namespace WDCL
             //resolve complex driver
             if (t == DataType.Expr)
             {
-                string complexDriver = (string)ids.getID(drv);
-
-                var expression = Eval.EvalExpression(complexDriver);
-
-                ids.resolveID(drv, expression.Value, expression.Type);
+                ids.resolveID(drv);
             }
             
             var driver = new ExpressionNodeEval() { Type = ids.getTypeID(drv), Value = ids.getID(drv) };

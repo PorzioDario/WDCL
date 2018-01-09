@@ -54,10 +54,15 @@
     <Compile Include="AST\Translate\ExpressionNodeTranslate.cs" />
     <Compile Include="AST\Translate\NodeTranslate.cs" />
     <Compile Include="Eval.cs" />
+    <Compile Include="EvalExpression.cs" />
+    <Compile Include="EvalCondition.cs" />
     <Compile Include="EvalVisitor.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="Identifiers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxError.cs" />
+    <Compile Include="WDCLErrorListener.cs" />
+    <Compile Include="WDCLParseException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

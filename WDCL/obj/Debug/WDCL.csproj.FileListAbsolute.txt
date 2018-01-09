@@ -1,9 +1,3 @@
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLLexer.cs
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLParser.cs
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLListener.cs
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLBaseListener.cs
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLVisitor.cs
-c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLBaseVisitor.cs
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\WDCL.dll
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\WDCL.pdb
@@ -11,4 +5,9 @@ c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\Antlr
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\bin\Debug\Antlr4.Runtime.xml
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.dll
 c:\users\porziod\documents\visual studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.pdb
-C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCL.csprojResolveAssemblyReference.cache
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLLexer.cs
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLParser.cs
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLListener.cs
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLBaseListener.cs
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLVisitor.cs
+C:\Users\porziod\Documents\Visual Studio 2015\Projects\WDCL\WDCL\obj\Debug\WDCLBaseVisitor.cs
